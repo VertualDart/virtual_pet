@@ -1,39 +1,44 @@
-import tkinter as tk 
-from PIL import Image, ImageTk
-
-class VirtuPet():
-    def __init__(self):
-        self.root = tk.Tk()
-        self.root.overrideredirect(True)
-        self.root.wm_attributes("-topmost", True)
-        self.root.wm_attributes("-transparentcolor", "white")
-
-        self.canvas = tk.Canvas(self.root, width=128, height=128, bg='white', highlightthickness=0)
-        self.canvas.pack()
-
-        self.pet_image = ImageTk.PhotoImage(Image.open("cat.png"))
-        self.canvas.create_image(64, 64, image=self.pet_image)
-
-        self.root.geometry(f"-100-100")
-
-        self.canvas.bind("<ButtonPress-1>", self.start_move)
-        self.canvas.bind("<B1-Motion>", self.do_move)
-
-    def start_move(self, event):
-        self.x = event.x
-        self.y = event.y
-    
-    def do_move(self, event):
-        deltax = event.x - self.x
-        deltay = event.x - self.y
-        x = self.root.winfo_x() + deltax
-        y = self.root.winfo_y() + deltay
-        self.root.geometry(f"+{x}+{y}")
+import random
+import tkinter as tk
+import pyautogui
 
 
-    def run(self):
-        self.root.mainloop()
+#define variables
+x = 1400
+cycle = 0
+check = 1
+idle_num = [1, 2, 3, 4]
+sleep_num = [10, 11, 12, 13, 15]
+walk_left = [6, 7]
+walk_right = [8, 9]
+event_number = random.randrange(1,3,1)
+impath = 'C:\\your\\path\\to\\file'
 
-if __name__ == "__main__":
-    pet = VirtuPet()
-    pet.run()
+#create tkinter winodw
+window = tk.Tk()
+
+
+#call catto's action (.gif) to an array
+idle = [tk.PhotoImage(file=impath + 'cat_idle.gif', format = 'gif - index %i' %(i)) for i in range(5)] #idle gid, 5 frames
+
+idle_to_sleep = [tk.PhotoImage(file = impath + 'cat_idle_to_sleep.gif', format = 'gif - index %i' %(i)) for i in range(8)] #idle to sleep, 8 frames here
+
+sleep = [tk.PhotoImage(file = impath + 'cat_sleeping.gif', format = 'gif - index %i' %(i)) for i in range(3)]
+
+sleep_to_idle = [tk.PhotoImage(file = impath + 'cat_wake_up.gif', format = 'gif - index %i' %(i)) for i in range(8)]
+
+walk_right = [tk.PhotoImage(file = impath + 'cat_walk_right.gif', format = 'gif - index %i' %(i)) for i in range(8)]
+
+walk_left = [tk.PhotoImage(file = impath + 'cat_walk_left.gif', format = 'gif - index %i' %(i)) for i in range(8)]
+
+
+
+#make bg transparent
+window.config(highlightbackground='black')
+window.overrideredirect(True)
+window.wm_attributed('-transparentcolor','black')
+
+#assign label
+label = tk.Label(window, bd=0, bg='black')
+label.pack()
+window.mainloo()
